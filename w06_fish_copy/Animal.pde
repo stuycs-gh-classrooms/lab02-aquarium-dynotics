@@ -7,6 +7,8 @@ class Animal {
   String name;
   float dx;
   float dy;
+  float fishl = size * 2;
+  float fishw = size;
 
   Animal(float x, float y, int age, float speed, String name, float size) {
     this.x = x;
@@ -36,6 +38,15 @@ class Animal {
     if (y <= tankY || y >= tankY + tankH - floorH - size) {
       dy = -dy; 
       y += dy * speed; 
+    }
+  }
+  
+   void bounce(){
+    if((x + fishw/2) > width || x - fishw/2 < tankX){
+      fishvx *= -1;
+    }
+    if((y + fishl/2) > height || y - fishl/2 < tankY){
+      fishvy *= -1;
     }
   }
 
