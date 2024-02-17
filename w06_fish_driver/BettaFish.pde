@@ -5,10 +5,24 @@ class BettaFish extends Animal {
   boolean isDarting = false;
   int dartCount = 0; // frames between darts
   int coolDown = 120;
+  boolean isAlive = true;
 
-  BettaFish(float x, float y, int age, float speed, String name, float size) {
-    super(x, y, age, speed, name, size);
+  BettaFish(float x, float y, int age, float speed, String name, float size, String type) {
+        super(x, y, age, speed, name, size, "BettaFish");
   }
+  
+  boolean canEat(Animal other) {
+        return "Crab".equals(other.type);
+    }
+    
+    void updateHunger() {
+        super.updateHunger();
+        if (currentHunger <= 0) {
+            isAlive = false;
+            die();
+        }
+    }
+  
 
   void display() {
     if (isDarting) {
@@ -20,6 +34,8 @@ class BettaFish extends Animal {
   }
 
   void startDart() {
+    
+    if (isAlive == true) {
     if (!isDarting && random(1) < 0.25) {
       isDarting = true;
       dartCount = (int)random(25, 50);
@@ -56,9 +72,15 @@ class BettaFish extends Animal {
       }
     }
   }
+  else{ 
+    die();
+    }
+  }
 
   void move(int tankW, int tankH, int tankX, int tankY, int floorH) {
-    startDart();
+   if (isAlive == true)
+   {
+     startDart();
 
     x += dx;
     y += dy;
@@ -79,6 +101,19 @@ class BettaFish extends Animal {
       dy = -dy; 
       y += dy * speed; 
     }
+    }
   }
+  
+void die() {
+    if (!isAlive) { 
+        if (y > 50) { 
+            dy = -0.5;
+            y += dy;
+        } else {
+            dy = 0; 
+            y = 50;
+        }
+    }
+}
 
 }

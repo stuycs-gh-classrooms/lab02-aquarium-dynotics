@@ -2,15 +2,19 @@
 class Crab extends Animal{
 
   ArrayList<Animal> animals = new ArrayList<Animal>();
-
-  Crab(float x, float y, int age, float speed, String name, float size) 
-  {
-    super(x, y, age, speed, name, size);
+    
+  Crab(float x, float y, int age, float speed, String name, float size, String type) {
+      super(x, y, age, speed, name, size, "Crab"); 
   }
 
+   boolean canEat(Animal other) {
+        return "Goldfish".equals(other.type); 
+      }
+  
+  
   void display(){
-    fill(255, 0, 0);
-    ellipse(x, y, fishw, fishl);
+    fill(255, 105, 100);
+    circle(x, y, fishl);
   }
 
   void bounce(){
@@ -28,4 +32,4 @@ class Crab extends Animal{
       }
     }
   }
-}
+  }

@@ -31,17 +31,63 @@ class Tank {
 
   void moveAnimals() {
     for (int i = 0; i < animals.size(); i++) {
-      animals.get(i).move(w, h, x, y, floorH);
+        Animal animal = animals.get(i);
+        animal.move(w, h, x, y, floorH);
     }
   }
 
-  void addAnimal(float mx, float my) {
-  if (my < y + h - floorH) {
-      animals.add(new BettaFish(mx, my, 1, 2, "Fishy", 20));
-    } 
-    else 
-    {
-      animals.add(new Shrimp(mx, my, 1, 1, "Shrimpy", 15));
+  void addAnimal(Animal animal) {
+    animals.add(animal);
+  }
+  
+  void updateAnimals() {
+    ArrayList<Animal> toRemove = new ArrayList<Animal>();
+
+    for (int i = 0; i < animals.size(); i++) {
+        Animal predator = animals.get(i);
+        for (int j = 0; j < animals.size(); j++) {
+            if (i != j) {
+                Animal prey = animals.get(j);
+
+                if (predator.collidesWith(prey) && predator.canEat(prey)) {
+                    toRemove.add(prey);
+                    predator.eat();
+                }
+            }
+        }
+    }
+    
+    animals.removeAll(toRemove);
+    
+    for (int i = 0; i < animals.size(); i++) {
+        Animal animal = animals.get(i);
+              animal.updateHunger();
+    }
+    
+        ArrayList<FishFood> eatenFood = new ArrayList<FishFood>();
+
+    for (int i = 0; i < animals.size(); i++) {
+        Animal animal = animals.get(i);
+        for (int j = 0; j < foods.size(); j++) {
+            FishFood food = foods.get(j);
+            if (food.isEaten(animal)) {
+                animal.currentHunger += 5;
+                eatenFood.add(food);
+            }
+        }
+        animal.updateHunger();
+    }
+
+    foods.removeAll(eatenFood);
+    
+  }
+
+void removeDeadAnimals() {
+    for (int i = animals.size() - 1; i >= 0; i--) {
+        Animal animal = animals.get(i);
+        if (!animal.isAlive && !"BettaFish".equals(animal.type)) {
+            animals.remove(i);
+        }
     }
   }
 }
