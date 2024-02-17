@@ -1,4 +1,4 @@
-// driver file - when i checked this morning, all of my code had been deleted...?
+// driver file - when i checked this morning, oddly all of my code had been deleted...?
 
 Tank t;
 int tankX = 0;
